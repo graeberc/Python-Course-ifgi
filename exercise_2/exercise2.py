@@ -9,7 +9,7 @@ def donuts(count):
 # +++ your code here +++
     if not isinstance(count, int):
         return 'Invalid input type'
-    if count > 10:
+    if count >= 10:
         return 'Number of donuts: many'
     else:
         return f'Number of donuts: {count}'
