@@ -1,4 +1,15 @@
-# Exercise 4.1
+# Exercise 4 – QGIS Python Scripts
+
+## Table of Contents
+
+- [Exercise 4.1](#exercise-41) – Layer Actions
+- [Exercise 4.2](#exercise-42) – Python Console Report
+- [Exercise 4.3](#exercise-43) – Project Creation
+- [Exercise 4.4](#exercise-44) – Spatial Analysis
+
+---
+
+## Exercise 4.1
 
 1. Open QGIS and load the layer `Muenster_City_Districts.shp`.
 
@@ -18,7 +29,7 @@
 
 <img src="img/4.1_3.png" width="1000">
 
-# Exercise 4.2
+## Exercise 4.2
 
 1. Open QGIS and load the layer `Schools.shp`.
 
@@ -40,7 +51,7 @@
 
 <img src="img/4.2_5.png" width="1000">
 
-# Exercise 4.3
+## Exercise 4.3
 
 1. Make sure the folder `%USERPROFILE%\Documents\PythonInQgisArcGis\Muenster` exists and contains the input shapefiles (`.shp` and related files).
 
@@ -69,3 +80,25 @@
 6. Open this `.qgz` file in QGIS to verify that all layers were added.
 
 <img src="img/4.3_1.png" width="1000">
+
+## Exercise 4.4
+
+1. Open QGIS and load the layers `Schools.shp` and `Muenster_City_Districts.shp`.
+
+<img src="img/4.4_1.png" width="1000">
+
+2. Open the Python console.
+
+<img src="img/4.4_2.png" width="1000">
+
+3. Open the Python editor and load the script [exercise_4_4.py](exercise_4_4.py).
+
+<img src="img/4.4_3.png" width="1000">
+
+4. Run the script.
+
+<img src="img/4.4_4.png" width="1000">
+
+5. The results are displayed in the console output.
+
+<img src="img/4.4_5.png" width="1000">
