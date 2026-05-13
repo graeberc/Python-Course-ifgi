@@ -44,13 +44,13 @@
 
 1. Make sure the folder `%USERPROFILE%\Documents\PythonInQgisArcGis\Muenster` exists and contains the input shapefiles (`.shp` and related files).
 
-2. In [exercise_4/.env.example](.env.example), check the QGIS version setting and copy the file to [exercise_4/.env](.env):
+2. Copy the example environment file to `.env` if you do not already have one:
 
 	```
 	cp .env.example .env
 	```
 
-3. Open [exercise_4/.env](.env) and set `QGIS_VERSION` to your installed QGIS version (for example `3.42.1`).
+3. Open `.env` and set `QGIS_VERSION` to the version of QGIS you have installed, for example `3.42.1`.
 
 4. Run the script in a terminal with the QGIS launcher that matches your installed version:
 
