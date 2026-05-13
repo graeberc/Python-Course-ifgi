@@ -1,3 +1,8 @@
+import os
+from pathlib import Path
+
+from qgis.core import QgsProject
+
 # Get the layer
 layer = QgsProject.instance().mapLayersByName("Schools")[0]
 
@@ -5,10 +10,11 @@ layer = QgsProject.instance().mapLayersByName("Schools")[0]
 selected_features = layer.selectedFeatures()
 
 # Output file path
-output_file = "C:/Users/cedri/OneDrive/Desktop/Uni/PythonInQgisArcGis/SchoolReport.csv"
+output_file = os.path.expandvars(r"%USERPROFILE%\Documents\PythonInQgisArcGis\SchoolReport.csv")
+Path(output_file).parent.mkdir(parents=True, exist_ok=True)
 
 # Open CSV file for writing
-with open(output_file, "w") as file:
+with open(output_file, "w", encoding="utf-8") as file:
     # Write header
     file.write("Name;X;Y\n")
     
