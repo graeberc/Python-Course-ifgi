@@ -40,3 +40,32 @@
 
 <img src="img/4.2_5.png" width="1000">
 
+# Exercise 4.3
+
+1. Make sure the folder `%USERPROFILE%\Documents\PythonInQgisArcGis\Muenster` exists and contains the input shapefiles (`.shp` and related files).
+
+2. In [exercise_4/.env.example](.env.example), check the QGIS version setting and copy the file to [exercise_4/.env](.env):
+
+	```
+	cp .env.example .env
+	```
+
+3. Open [exercise_4/.env](.env) and set `QGIS_VERSION` to your installed QGIS version (for example `3.42.1`).
+
+4. Run the script in a terminal with the QGIS launcher that matches your installed version:
+
+	```
+	& "C:\Program Files\QGIS 3.42.1\bin\python-qgis.bat" "c:\Users\nilsg\repos\Python-Course-ifgi\exercise_4\exercise_4_3.py"
+    ```
+
+    or
+
+    ```
+    & "C:\Program Files\QGIS 3.44.9\bin\python-qgis-ltr.bat" "c:/Users/cedri/OneDrive/Desktop/Uni/PythonInQgisArcGis/Python-Course-ifgi/exercise_4/exercise_4_3.py"
+	```
+
+5. The script creates the project file at `%USERPROFILE%\Documents\PythonInQgisArcGis\myFirstProject.qgz`.
+
+6. Open this `.qgz` file in QGIS to verify that all layers were added.
+
+<img src="img/4.3_1.png" width="1000">
