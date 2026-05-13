@@ -1,16 +1,20 @@
 import os
-from qgis.core import QgsApplication,QgsVectorLayer, QgsProject
+from pathlib import Path
+from qgis.core import QgsApplication, QgsVectorLayer, QgsProject
 
-# Initialize QGIS
-QgsApplication.setPrefixPath(r"C:\Program Files\QGIS 3.44.9", True)
+# Get QGIS Version from .env
+env_path = Path(__file__).with_name(".env")
+qgis_version = os.environ.get("QGIS_VERSION")
+
+QgsApplication.setPrefixPath(fr"C:\Program Files\QGIS {qgis_version}\apps\qgis", True)
 qgs = QgsApplication([], False)
 qgs.initQgis()
 
 # Path to Muenster folder
-folder_path = r"C:\Users\cedri\Downloads\Muenster\Muenster"
+folder_path = os.path.expandvars(r"%USERPROFILE%\Documents\PythonInQgisArcGis\Muenster")
 
 # Path to save project
-project_path = r"C:\Users\cedri\OneDrive\Desktop\Uni\PythonInQgisArcGis\Python-Course-ifgi\exercise_4\myFirstProject.qgz"
+project_path = os.path.expandvars(r"%USERPROFILE%\Documents\PythonInQgisArcGis\myFirstProject.qgz")
 
 # Create QGIS project instance
 project = QgsProject.instance()
