@@ -25,6 +25,9 @@ from reportlab.platypus import (
 
 from reportlab.lib.styles import getSampleStyleSheet
 
+import matplotlib.pyplot as plt
+import html
+
 class CreateCityDistrictProfile(QgsProcessingAlgorithm):
     
     # ---------------------------------------------------------
@@ -92,7 +95,93 @@ class CreateCityDistrictProfile(QgsProcessingAlgorithm):
             names.append(feature["Name"])
             
         return sorted(names)
-            
+
+    # ----------------------------------------------------------
+    # Helper function: builds a bar chart of facility types
+    # ----------------------------------------------------------
+
+    def createStatisticalChart(self, pointLayer, district_geom):
+
+        # Counts features by type within the district and
+        # produces a bar chart image. Returns the image path and
+        # a status flag indicating whether a chart was created.
+
+        # Choose the right column name based on which layer
+        # we're dealing with
+        type_col = (
+            "SchoolType"
+            if pointLayer.name() == "Schools"
+            else "Type"
+        )
+
+        counts = {}
+
+        for feature in pointLayer.getFeatures():
+            if district_geom.intersects(feature.geometry()):
+                val = feature[type_col]
+                counts[val] = counts.get(val, 0) + 1
+
+        if not counts:
+            # No features -> no chart
+            return "", False
+
+        # -----------------------------------------------------
+        # Color definitions
+        # Since the layers have no color attribute, we assign a
+        # fixed color to each known type. Each type value (the
+        # text stored in "SchoolType" / "Type") is mapped to a
+        # color here. Unknown/missing types fall back to grey.
+        # -----------------------------------------------------
+        color_map = {
+            # School types
+            "Grundschule": "#4C72B0",
+            "Hauptschule": "#DD8452",
+            "Realschule": "#55A868",
+            "Gesamtschule": "#C44E52",
+            "Gymnasium": "#8172B3",
+            "Förderschule": "#937860",
+            "Berufskolleg": "#DA8BC3",
+            "Montessorischule": "#E377C2",
+            "PRIMUS-Schule": "#7F7F7F",
+            "PTA-Berufsfachschule": "#BCBD22",
+            "Schule für Kranke": "#17BECF",
+            "Sekundarschule": "#AEC7E8",
+            "Waldorfschule": "#FFBB78",
+            "Weiterbildungskolleg": "#98DF8A",
+            # Pool types
+            "H": "#4C72B0",
+            "F": "#55A868",
+        }
+
+        default_color = "#808080"
+
+        labels = list(counts.keys())
+        values = list(counts.values())
+
+        # Build a per-bar color list (one color per label)
+        bar_colors = [
+            color_map.get(label, default_color)
+            for label in labels
+        ]
+
+        # Build and save the bar chart
+        plt.bar(labels, values, color=bar_colors)
+        plt.title("Distribution by type")
+        plt.ylabel("Count")
+
+        chart_path = os.path.join(
+            QgsProject.instance().homePath(),
+            "temp_chart.png"
+        )
+
+        plt.savefig(chart_path, dpi=150, bbox_inches="tight")
+
+        # Clear the figure so the next run starts fresh
+        plt.clf()
+        plt.close()
+
+        return chart_path, True
+
     # -----------------------------------------------------------
     # GUI / Parameter definition
     # -----------------------------------------------------------
@@ -224,6 +313,14 @@ class CreateCityDistrictProfile(QgsProcessingAlgorithm):
             if feature.geometry().within(districtGeom):
                 count_choice += 1
 
+        # -----------------------------------------------------
+        # Build bar chart of facility types within district
+        # -----------------------------------------------------
+        chart_path, has_chart = self.createStatisticalChart(
+            pointLayer,
+            districtGeom
+        )
+
         # -------------------------
         # Map export (screenshot of selected district)
         # -------------------------
@@ -262,7 +359,9 @@ class CreateCityDistrictProfile(QgsProcessingAlgorithm):
             "count_parcels": count_parcels,
             "count_choice": count_choice,
             "chosen_layer": chosenLayer,
-            "image_path": image_path
+            "image_path": image_path,
+            "chart_path": chart_path,
+            "has_chart": has_chart
         }
 
     # ---------------------------------------------------
@@ -311,45 +410,62 @@ class CreateCityDistrictProfile(QgsProcessingAlgorithm):
 
         content.append(Spacer(1, 20))
 
-        # Statistics
+        # Statistics heading
+
+        content.append(
+            Paragraph(
+                "<b>Statistics</b>",
+                styles["Heading2"]
+            )
+        )
+
+        content.append(Spacer(1, 6))
 
         content.append(
             Paragraph(
                 f"<b>Parent District:</b> "
-                f"{data['parent_district']}",
+                f"{html.escape(str(data['parent_district']))}",
                 styles["Normal"]
             )
         )
+
+        content.append(Spacer(1, 4))
 
         content.append(
             Paragraph(
                 f"<b>Area:</b> "
-                f"{data['area_km2']} km²",
+                f"{html.escape(str(data['area_km2']))} km²",
                 styles["Normal"]
             )
         )
+
+        content.append(Spacer(1, 4))
 
         content.append(
             Paragraph(
                 f"<b>Households:</b> "
-                f"{data['count_houses']}",
+                f"{html.escape(str(data['count_houses']))}",
                 styles["Normal"]
             )
         )
 
+        content.append(Spacer(1, 4))
+
         content.append(
             Paragraph(
                 f"<b>Parcels:</b> "
-                f"{data['count_parcels']}",
+                f"{html.escape(str(data['count_parcels']))}",
                 styles["Normal"]
             )
         )
+
+        content.append(Spacer(1, 4))
 
         if data["count_choice"] == 0:
 
             content.append(
                 Paragraph(
-                    f"No {data['chosen_layer'].lower()} "
+                    f"No {html.escape(data['chosen_layer'].lower())} "
                     f"in this district.",
                     styles["Normal"]
                 )
@@ -359,12 +475,26 @@ class CreateCityDistrictProfile(QgsProcessingAlgorithm):
 
             content.append(
                 Paragraph(
-                    f"{data['count_choice']} "
-                    f"{data['chosen_layer'].lower()} "
+                    f"{html.escape(str(data['count_choice']))} "
+                    f"{html.escape(data['chosen_layer'].lower())} "
                     f"located in this district.",
                     styles["Normal"]
                 )
             )
+
+        # Chart (only if features of the chosen type were found)
+
+        if data["has_chart"]:
+
+            content.append(Spacer(1, 20))
+
+            chart_image = Image(
+                data["chart_path"],
+                width=350,
+                height=200
+            )
+
+            content.append(chart_image)
 
         pdf.build(content)
 
@@ -372,6 +502,11 @@ class CreateCityDistrictProfile(QgsProcessingAlgorithm):
 
         if os.path.exists(data["image_path"]):
             os.remove(data["image_path"])
+
+        # delete temporary chart image
+
+        if data["has_chart"] and os.path.exists(data["chart_path"]):
+            os.remove(data["chart_path"])
 
     # ---------------------------------------------------
     # Main algorithm
