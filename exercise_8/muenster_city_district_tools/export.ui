@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Dialog</class>
+ <widget class="QDialog" name="Dialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>562</width>
+    <height>403</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Dialog</string>
+  </property>
+  <widget class="QPushButton" name="pbExportPdf">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>20</y>
+     <width>271</width>
+     <height>61</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Export als *.pdf</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label">
+   <property name="geometry">
+    <rect>
+     <x>14</x>
+     <y>95</y>
+     <width>531</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Die Werte des selektierten Feauters werden in einen *.pdf-Steckbrief geschrieben.
+Bitte geben Sie hierzu noch einen Ausgabepfad an. Bitte beachten Sie, dass nur ein
+Feature ausgewählt ist.</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pbExportCsv">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>200</y>
+     <width>271</width>
+     <height>61</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Export als *.csv</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_2">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>270</y>
+     <width>531</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Die Werte der selektierten Feature werden in einen *.csv exportiert. Bitte 
+geben Sie hierzu noch einen Ausgabepfad an.</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pbOk">
+   <property name="geometry">
+    <rect>
+     <x>200</x>
+     <y>350</y>
+     <width>151</width>
+     <height>28</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Ok</string>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
