@@ -114,18 +114,18 @@ class MuensterCityDistrictToolsDialog(QtWidgets.QDialog, FORM_CLASS):
             # Hole den Layer, um die Selektion vorab zu prüfen 
             layer_list = QgsProject.instance().mapLayersByName("Muenster_City_Districts")
             if not layer_list:
-                QMessageBox.critical(self, "Fehler", "Der Layer 'Muenster_City_Districts' wurde nicht gefunden! [cite: 313]")
+                QMessageBox.critical(self, "Fehler", "Der Layer 'Muenster_City_Districts' wurde nicht gefunden!")
                 return
             
             layer = layer_list[0]
             features = layer.selectedFeatures() 
 
-            # Validierung: Für jeden Export muss mindestens 1 Feature selektiert sein! [cite: 260, 322]
+            # Validierung: Für jeden Export muss mindestens 1 Feature selektiert sein
             if len(features) == 0:
-                QMessageBox.warning(self, "Auswahl fehlt", "Bitte wählen Sie mindestens einen Stadtbezirk auf der Karte aus[cite: 154].")
+                QMessageBox.warning(self, "Auswahl fehlt", "Bitte wählen Sie mindestens einen Stadtbezirk auf der Karte aus.")
                 return
 
-            # Erstelle das Export-Fenster [cite: 252]
+            # Erstelle das Export-Fenster
             dialog = QtWidgets.QDialog(self)
             ui = Ui_ExportDialog()
             ui.setupUi(dialog)

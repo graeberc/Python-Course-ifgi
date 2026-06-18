@@ -16,7 +16,10 @@ def create_pdf_profile(feature, output_path):
     
     # 2. QGIS-Karte temporär exportieren
     # Holt den Bezirks-Layer und setzt ihn aktiv
-    layer = QgsProject.instance().mapLayersByName("Muenster_City_Districts")[0]
+    layers = QgsProject.instance().mapLayersByName("Muenster_City_Districts")
+    if not layers:
+        raise ValueError("Layer 'Muenster_City_Districts' nicht in QGIS gefunden!")
+    layer = layers[0]
     iface.setActiveLayer(layer)
     
     # Zoomt die QGIS-Ansicht direkt auf das ausgewählte Feature
