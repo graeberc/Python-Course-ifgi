@@ -34,7 +34,10 @@ class Statistics:
         Counts House_Numbers points inside district (point-in-polygon)
         """
 
-        layer = QgsProject.instance().mapLayersByName("House_Numbers")[0]
+        layers = QgsProject.instance().mapLayersByName("House_Numbers")
+        if not layers:
+            raise ValueError("Layer 'House_Numbers' nicht in QGIS gefunden! Bitte Layer hinzufügen und Namen prüfen.")
+        layer = layers[0]
         poly = district_feature.geometry()
 
         count = 0
@@ -52,7 +55,10 @@ class Statistics:
         Counts parcels intersecting district
         """
 
-        layer = QgsProject.instance().mapLayersByName("Muenster_Parcels")[0]
+        layers = QgsProject.instance().mapLayersByName("Muenster_Parcels")
+        if not layers:
+            raise ValueError("Layer 'Muenster_Parcels' nicht in QGIS gefunden! Bitte Layer hinzufügen und Namen prüfen.")
+        layer = layers[0]
         poly = district_feature.geometry()
 
         count = 0
@@ -70,7 +76,10 @@ class Statistics:
         Counts schools within district
         """
 
-        layer = QgsProject.instance().mapLayersByName("Schools")[0]
+        layers = QgsProject.instance().mapLayersByName("Schools")
+        if not layers:
+            raise ValueError("Layer 'Schools' nicht in QGIS gefunden! Bitte Layer hinzufügen und Namen prüfen.")
+        layer = layers[0]
         poly = district_feature.geometry()
 
         count = 0
@@ -88,7 +97,10 @@ class Statistics:
         Counts public swimming pools within district
         """
 
-        layer = QgsProject.instance().mapLayersByName("public_swimming_pools")[0]
+        layers = QgsProject.instance().mapLayersByName("public_swimming_pools")
+        if not layers:
+            raise ValueError("Layer 'public_swimming_pools' nicht in QGIS gefunden! Bitte Layer hinzufügen und Namen prüfen.")
+        layer = layers[0]
         poly = district_feature.geometry()
 
         count = 0
