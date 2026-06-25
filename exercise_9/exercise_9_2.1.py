@@ -1,4 +1,5 @@
 import arcpy
+import os
 
 # ------------------------------------------------------------------------------
 # ArcPy Exercise 9
@@ -6,7 +7,9 @@ import arcpy
 # ------------------------------------------------------------------------------
 
 # Set the workspace
-arcpy.env.workspace = r"C:\Users\cedri\OneDrive\Desktop\UNI\PythonInQGIS&ArcGIS\Session9\exercise_arcpy_1.gdb"
+arcpy.env.workspace = os.path.expandvars(
+    r"%userprofile%\Documents\PythonInQgisArcGis\exercise_arcpy_1.gdb"
+)
 arcpy.env.overwriteOutput = True
 
 def create_active_assets():
