@@ -1,19 +1,16 @@
 import arcpy
-import os
 
 # ------------------------------------------------------------------------------
 # ArcPy Exercise 10
 # Task 1: Find the nearest bus stop
 # ------------------------------------------------------------------------------
 
-# Set the workspace
-arcpy.env.workspace = os.path.expandvars(
-    r"C:\Users\cedri\OneDrive\Desktop\UNI\PythonInQGIS&ArcGIS\Session10\arcpy_2.gdb"
-)
+# Set the workspace (adjust this path to where arcpy2.gdb lives on your machine)
+arcpy.env.workspace = r"c:\Users\nilsg\Documents\PythonInQgisArcGis\arcpy_2.gdb"
 arcpy.env.overwriteOutput = True
 
 # Input feature class (contains ONE point)
-input_fc = r"C:\Users\cedri\OneDrive\Desktop\UNI\PythonInQGIS&ArcGIS\Session10\arcpy_2.gdb\input_point"
+input_fc = "input_point"
 
 # Feature class containing the bus stops
 near_features = "stops_ms_mitte"
