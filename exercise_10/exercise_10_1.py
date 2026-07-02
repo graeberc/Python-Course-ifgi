@@ -9,8 +9,8 @@ import arcpy
 arcpy.env.workspace = r"c:\Users\nilsg\Documents\PythonInQgisArcGis\arcpy_2.gdb"
 arcpy.env.overwriteOutput = True
 
-# Input feature class (contains ONE point)
-input_fc = "input_point"
+# Input feature class (the point drawn on the map, passed in as the first tool parameter)
+input_fc = arcpy.GetParameterAsText(0)
 
 # Feature class containing the bus stops
 near_features = "stops_ms_mitte"
